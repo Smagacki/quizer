@@ -1,0 +1,23 @@
+.counter {
+    font-size: 34px;
+}
+
+.question {
+    font-size: 30px;
+    color: red;
+}
+
+.answers {
+    font-size: 24px;
+    color: blue;
+}
+
+.button {
+    cursor: pointer;
+    background-color: lightgreen;
+    font-size: 20px;
+    border: none;
+    width: 80px;
+    height: 35px;
+    border-radius: 10px;
+}

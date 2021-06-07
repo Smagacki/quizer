@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Adding new questions</title>
+</head>
+<body>
+<form th:action="@{/add-question}" th:object="${newQuestion}" method="post">
+    <p>Question: <input type="text" th:field="*{questionText}"></p>
+    <p>answer 1: <input type="text" th:field="*{answers[0].answerText}"></p>
+    <p>answer 2: <input type="text" th:field="*{answers[1].answerText}"></p>
+    <p>answer 3: <input type="text" th:field="*{answers[2].answerText}"></p>
+    <p>answer 4: <input type="text" th:field="*{answers[3].answerText}"></p>
+    <p><input type="submit" value="add new question"></p>
+</form>
+</body>
+</html>

@@ -12,4 +12,5 @@ public class QuizerApplication {
         SpringApplication.run(QuizerApplication.class, args);
     }
 
+    DbInit dbInit = new DbInit();
 }
