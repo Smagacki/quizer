@@ -11,13 +11,15 @@ public class Answer {
     @ManyToOne
     private Question question;
     private String answerText;
+    private boolean isCorrect;
 
     public Answer() {
     }
 
-    public Answer(Question question, String answerText) {
+    public Answer(Question question, String answerText, boolean isCorrect) {
         this.question = question;
         this.answerText = answerText;
+        this.isCorrect = isCorrect;
     }
 
     public Long getId() {
@@ -42,5 +44,13 @@ public class Answer {
 
     public void setAnswerText(String answerText) {
         this.answerText = answerText;
+    }
+
+    public boolean isCorrect() {
+        return isCorrect;
+    }
+
+    public void setCorrect(boolean correct) {
+        isCorrect = correct;
     }
 }

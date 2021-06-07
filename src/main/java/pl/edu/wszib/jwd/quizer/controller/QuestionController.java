@@ -28,7 +28,7 @@ QuestionController {
     @Autowired
     UserAnswerDao userAnswerDao;
 
-    private final int NUMBER_OF_QUESTIONS = 5;
+    private final int NUMBER_OF_QUESTIONS = 20;
     private Long questionID;
     private int questionNumber = 1;
     String redirectUrl;

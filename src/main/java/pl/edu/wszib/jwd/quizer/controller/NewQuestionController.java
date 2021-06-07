@@ -28,9 +28,9 @@ public class NewQuestionController {
     @PostMapping("/add-question")
     public String addQuestion(@ModelAttribute Question question) {
         questionDao.save(question);
-        for (Answer answer : question.getAnswers()) {
-            answerDao.save(new Answer(question, answer.getAnswerText()));
-        }
+//        for (Answer answer : question.getAnswers()) {
+//            answerDao.save(new Answer(question, answer.getAnswerText()));
+//        }
         return "redirect:/newQuestion";
     }
 }
