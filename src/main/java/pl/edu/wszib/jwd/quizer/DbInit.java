@@ -45,7 +45,7 @@ public class DbInit {
         };
 
         for (String[] s : questionArray) {
-            questionDao.save(new Question(s[0], s[1]));
+            questionDao.save(new Question(s[1], s[2]));
         }
 
         String[][] answerArray = {
@@ -68,7 +68,7 @@ public class DbInit {
                 {"5", "=", "N"},
                 {"5", "<>", "N"},
                 {"5", "><", "N"},
-                {"5", "==", "T"},
+                {"5", "==", "Y"},
                 {"6", "super.nameMethod()", "Y"},
                 {"6", "self.nameMethod()", "N"},
                 {"6", "this.selfMethod()", "N"},
@@ -114,7 +114,7 @@ public class DbInit {
                 {"19", "column IS NOT NULL", "Y"},
                 {"20", "nie ma między nimi różnicy; słowo ALL jest opcjonalne w zależności od typu bazy danych", "N"},
                 {"20", "UNION pomija wiersze gdzie pojawiają się wartości NULL, a UNION ALL uwzględnia te wiersze", "N"},
-                {"20", "UNION ignoruje duplikaty w wyniku, a UNION ALL zwraca zduplikowane wiersze", "N"}
+                {"20", "UNION ignoruje duplikaty w wyniku, a UNION ALL zwraca zduplikowane wiersze", "Y"}
         };
 
         List<Question> allQuestions = (List<Question>) questionDao.findAll();

@@ -38,7 +38,7 @@ QuestionController {
         this.answerDao = answerDao;
     }
 
-    @GetMapping({"/questions/{questionNumber}", "/questions/{questionNumber}/{answerId}", "/questions"})
+    @GetMapping({"/questions/{questionNumber}", "/questions"})
     public String getAll(@RequestParam(required = false) Long questionNumber,
                          @RequestParam(required = false) Long answerId,
                          Model model) {

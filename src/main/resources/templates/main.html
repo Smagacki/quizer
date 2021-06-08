@@ -12,6 +12,17 @@
 <body>
 
 <!-- Main Navigation -->
+
+<div>
+    <a class="nav-link" th:href="@{/newUser}">Sign in</a>
+</div>
+<div>
+    <a class="nav-link" th:href="@{/questions?questionNumber=1}">Start new quiz</a>
+</div>
+<div>
+    <a class="nav-link" th:href="@{/newQuestion}">Edit new qeustions</a>
+</div>
+
 <nav class="navbar navbar-expand-md navbar-dark bg-primary">
     <a class="navbar-brand" th:href="@{/}">Quizer</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"
@@ -21,12 +32,6 @@
 
     <div class="collapse navbar-collapse" id="navbar">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/questions}">Start new quiz</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/newQuestion}">Edit new questions</a>
-            </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/data}">Dane</a>
             </li>
