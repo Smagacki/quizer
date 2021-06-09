@@ -11,36 +11,42 @@
 </head>
 <body>
 
-<!-- Main Navigation -->
-
 <div>
-    <a class="nav-link" th:href="@{/newUser}">Sign in</a>
-</div>
-<div>
-    <a class="nav-link" th:href="@{/questions?questionNumber=1}">Start new quiz</a>
-</div>
-<div>
-    <a class="nav-link" th:href="@{/newQuestion}">Edit new qeustions</a>
-</div>
-
-<nav class="navbar navbar-expand-md navbar-dark bg-primary">
-    <a class="navbar-brand" th:href="@{/}">Quizer</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"
-            aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbar">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/data}">Dane</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/stat}">Statystyki</a>
-            </li>
-        </ul>
+    <div style="float:left"><img src="quizer_logo.png" alt="QUIZER" width="500" height="500"></div>
+    <div style="float:left">
+        <div>
+            <a class="nav-link" th:href="@{/newUser}">Sign in</a>
+        </div>
+        <div>
+            <a class="nav-link" th:href="@{/questions?questionNumber=1}">Start new quiz</a>
+        </div>
+        <div>
+            <a class="nav-link" th:href="@{/newQuestion}">Add new questions</a>
+        </div>
     </div>
-</nav>
+</div>
+
+
+
+<!-- Main Navigation -->
+<!--<nav class="navbar navbar-expand-md navbar-dark bg-primary">-->
+<!--    <a class="navbar-brand" th:href="@{/}">Quizer</a>-->
+<!--    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"-->
+<!--            aria-expanded="false" aria-label="Toggle navigation">-->
+<!--        <span class="navbar-toggler-icon"></span>-->
+<!--    </button>-->
+
+<!--    <div class="collapse navbar-collapse" id="navbar">-->
+<!--        <ul class="navbar-nav ml-auto">-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" th:href="@{/data}">Dane</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" th:href="@{/stat}">Statystyki</a>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--</nav>-->
 
 </body>
 </html>
