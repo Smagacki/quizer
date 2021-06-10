@@ -17,12 +17,19 @@
         <img src="quizer_logo.png" alt="QUIZER" width="700" height="700">
     </div>
     <div class="sub-contener">
-        <a class="button button1" th:href="@{/newUser}">Sign in</a>
-        <button class="button button2" th:href="@{/questions?questionNumber=1}">Start new quiz</button>
-        <button class="button button3" th:href="@{/newQuestion}">Add new questions</button>
-        <div class="option">
-            <a class="nav-link sign-in" th:href="@{/newUser}">Sign in</a>
-        </div>
+        <a class="button" th:href="@{/newUser}">
+            <button class="button">Sign in</button>
+        </a>
+        <a class="button" th:href="@{/questions?questionNumber=1}">
+            <button class="button">Start new quiz</button>
+        </a>
+        <a class="button" th:href="@{/newQuestion}">
+            <button class="button">Add new questions</button>
+        </a>
+
+<!--        <div class="option">-->
+<!--            <a class="nav-link sign-in" th:href="@{/newUser}">Sign in</a>-->
+<!--        </div>-->
 <!--        <div class="option">-->
 <!--            <a class="nav-link new-quiz" th:href="@{/questions?questionNumber=1}">Start new quiz</a>-->
 <!--        </div>-->

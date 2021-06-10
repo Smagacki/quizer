@@ -27,11 +27,7 @@ html, body {
     height: 10%;
     border-radius: 50px;
     margin: 15px;
-    font-size: 45px;
+    font-size: 50px;
     text-align: center;
     vertical-align: center;
-}
-
-.button:hover {
-    background-color: deepskyblue;
 }
