@@ -6,23 +6,34 @@ import javax.persistence.*;
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String firstName;
-    private String lastName;
-    private int age;
-    private String login;
+
+    @Column(nullable = false, unique = true, length = 45)
+    private String email;
+
+    @Column(nullable = false, length = 64)
     private String password;
+
+    @Column(nullable = false, length = 20)
+    private String firstName;
+
+    @Column(nullable = false, length = 20)
+    private String lastName;
+//    private int age;
+//    private String login;
+
 
     public User() {
     }
 
-    public User(String firstName, String lastName, int age, String login, String password) {
+    public User(String email, String password, String firstName, String lastName) {
+        this.email = email;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.age = age;
-        this.login = login;
-        this.password = password;
+//        this.age = age;
+//        this.login = login;
     }
 
     public Long getId() {
@@ -31,6 +42,22 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
@@ -49,27 +76,20 @@ public class User {
         this.lastName = lastName;
     }
 
-    public int getAge() {
-        return age;
-    }
+//    public int getAge() {
+//        return age;
+//    }
+//
+//    public void setAge(int age) {
+//        this.age = age;
+//    }
+//
+//    public String getLogin() {
+//        return login;
+//    }
+//
+//    public void setLogin(String login) {
+//        this.login = login;
+//    }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
