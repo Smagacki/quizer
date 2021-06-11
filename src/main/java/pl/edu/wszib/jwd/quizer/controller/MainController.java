@@ -14,28 +14,33 @@ import java.util.Optional;
 @Controller
 public class MainController {
 
-    @Autowired
-    UserDao userDao;
+//    @Autowired
+//    UserDao userDao;
+//
+//    private String currUserLogin;
 
-    private String currUserLogin;
+    @GetMapping("")
+    public String viewHomePage() {
+        return "index";
+    }
 
-    @GetMapping("/")
-    public String get(Model model) {
+    //@GetMapping("/")
+    //public String get(Model model) {
 
 
-        if (currUserLogin != null) {
-            User user = userDao.findFirstByLogin(currUserLogin);
+//        if (currUserLogin != null) {
+//            User user = userDao.findFirstByLogin(currUserLogin);
 //            if(user != null)
 //                model.addAttribute("currentUser", user.getLogin());
 //            } else {
 //                model.addAttribute("currentUser", userInfo.get());
 //            }
 
-        }
+//        }
 
 
 
 
-        return "main";
-    }
+    //    return "index";
+   // }
 }

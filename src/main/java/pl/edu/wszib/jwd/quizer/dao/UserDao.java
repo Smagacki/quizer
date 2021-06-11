@@ -7,6 +7,6 @@ import pl.edu.wszib.jwd.quizer.model.User;
 
 @Repository
 public interface UserDao extends JpaRepository<User, Long> {
-    User findFirstByLogin(String login);
+    //User findFirstByLogin(String login);
 
 }

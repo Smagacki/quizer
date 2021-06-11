@@ -6,11 +6,10 @@
 </head>
 <body>
 <form th:action="@{/add-user}" th:object="${newUser}" method="post">
+  <p>First name: <input type="text" th:field="*{email}"></p>
+  <p>Password: <input type="text" th:field="*{password}"></p>
   <p>First name: <input type="text" th:field="*{firstName}"></p>
   <p>Last name: <input type="text" th:field="*{lastName}"></p>
-  <p>Age: <input type="text" th:field="*{age}"></p>
-  <p>Login: <input type="text" th:field="*{login}"></p>
-  <p>Password: <input type="text" th:field="*{password}"></p>
   <p><input type="submit" value="add new user"></p>
 </form>
 </body>
