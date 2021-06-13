@@ -1,11 +1,14 @@
 package pl.edu.wszib.jwd.quizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import pl.edu.wszib.jwd.quizer.dao.AnswerDao;
 import pl.edu.wszib.jwd.quizer.dao.QuestionDao;
+import pl.edu.wszib.jwd.quizer.dao.UserDao;
 import pl.edu.wszib.jwd.quizer.model.Answer;
 import pl.edu.wszib.jwd.quizer.model.Question;
+import pl.edu.wszib.jwd.quizer.model.User;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -18,6 +21,9 @@ public class DbInit {
 
     @Autowired
     private AnswerDao answerDao;
+
+    @Autowired
+    private UserDao userDao;
 
     @PostConstruct
     private void saveInitialData() {
@@ -125,5 +131,11 @@ public class DbInit {
             boolean isCorrect = answerRow[2].equals("Y");
             answerDao.save(new Answer(question, answerRow[1], isCorrect));
         }
+
+        User user = new User("admin@gmail.com", "admin2020", "admin", "admin");
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encodedPassword = encoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        userDao.save(user);
     }
 }

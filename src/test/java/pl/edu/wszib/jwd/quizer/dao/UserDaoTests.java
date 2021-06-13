@@ -31,10 +31,14 @@ public class UserDaoTests {
         user.setLastName("Kowalski");
 
         User savedUser = userDao.save(user);
-
         User existUser = entityManager.find(User.class, savedUser.getId());
-
         assertThat(existUser.getEmail()).isEqualTo(user.getEmail());
+    }
 
+    @Test
+    public void testFindUserByEmail() {
+        String email = "waldemar.smagacki@gmail.com";
+        User user = userDao.findByEmail(email);
+        assertThat(user).isNotNull();
     }
 }

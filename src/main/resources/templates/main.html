@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!--    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE"></title>-->
+  <title>Quizer - home page</title>
+
+  <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+<div class="container text-center d-flex p-2">
+    <div class="sub-contener">
+        <img src="quizer_logo.png" alt="QUIZER" width="700" height="700">
+    </div>
+    <div class="sub-contener">
+        <a th:href="@{/register}" class="btn btn-primary">Register</a>
+        <a th:href="@{/login}" class="btn btn-primary mt-2">Login</a>
+<!--        <a th:href="@{/list_users}" class="btn btn-primary mt-2">List all users</a>-->
+<!--        <a th:href="@{/questions?questionNumber=1}" class="btn btn-primary mt-2">Start new quiz</a>-->
+<!--        <a th:href="@{/newQuestion}" class="btn btn-primary mt-2">Add new questions</a>-->
+
+<!--        <a class="button" th:href="@{/newUser}">-->
+<!--            <button class="button">Sign in</button>-->
+<!--        </a>-->
+
+<!--        <a class="button" th:href="@{/questions?questionNumber=1}">-->
+<!--            <button class="button">Start new quiz</button>-->
+<!--        </a>-->
+<!--        <a class="button" th:href="@{/newQuestion}">-->
+<!--            <button class="button">Add new questions</button>-->
+<!--        </a>-->
+    </div>
+</div>
+</body>
+</html>

@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name="answers")
 public class Answer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     private Question question;

@@ -1,46 +1,53 @@
 package pl.edu.wszib.jwd.quizer.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import pl.edu.wszib.jwd.quizer.dao.UserAnswerDao;
+import org.springframework.web.bind.annotation.PostMapping;
 import pl.edu.wszib.jwd.quizer.dao.UserDao;
 import pl.edu.wszib.jwd.quizer.model.User;
-import pl.edu.wszib.jwd.quizer.model.UserAnswer;
 
-import java.util.Optional;
+import java.util.List;
 
 @Controller
 public class MainController {
 
-//    @Autowired
-//    UserDao userDao;
-//
-//    private String currUserLogin;
+    @Autowired
+    UserDao userDao;
 
     @GetMapping("")
     public String viewHomePage() {
-        return "index";
+        return "main";
     }
 
-    //@GetMapping("/")
-    //public String get(Model model) {
+    @GetMapping("/register")
+    public String showSignUpFrom(Model model) {
+        model.addAttribute("user", new User());
+        return "signup_form";
+    }
 
+    @PostMapping("/process_register")
+    public String processRegistration(User user) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encodedPassword = encoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        userDao.save(user);
+        return "register_success";
+    }
 
-//        if (currUserLogin != null) {
-//            User user = userDao.findFirstByLogin(currUserLogin);
-//            if(user != null)
-//                model.addAttribute("currentUser", user.getLogin());
-//            } else {
-//                model.addAttribute("currentUser", userInfo.get());
-//            }
+    @GetMapping("/list_users")
+    public String viewUsersList(Model model) {
+        List<User> listUsers = userDao.findAll();
+        model.addAttribute("listUsers", listUsers);
+        return "users";
+    }
 
-//        }
-
-
-
-
-    //    return "index";
-   // }
+    @GetMapping("/quiz_panel")
+    public String viewQuizPanel(Model model) {
+//        List<User> listUsers = userDao.findAll();
+//        model.addAttribute("listUsers", listUsers);
+        return "quiz_panel";
+    }
 }
