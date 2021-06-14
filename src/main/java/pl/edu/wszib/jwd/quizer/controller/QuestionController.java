@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.wszib.jwd.quizer.CustomUserDetails;
 import pl.edu.wszib.jwd.quizer.dao.AnswerDao;
 import pl.edu.wszib.jwd.quizer.dao.QuestionDao;
 import pl.edu.wszib.jwd.quizer.dao.UserAnswerDao;
@@ -34,13 +33,10 @@ QuestionController {
     @Autowired
     UserDao userDao;
 
-    private CustomUserDetails customUserDetails;
-
     private final int NUMBER_OF_QUESTIONS = 5;
     private Long questionID;
     private int questionNumber = 1;
-    private String redirectUrl;
-    private List<Question> quizQuestions;
+    List<Integer> quizQuestionIds = new ArrayList<>();
 
     public QuestionController(QuestionDao questionDao, AnswerDao answerDao) {
         this.questionDao = questionDao;
@@ -54,7 +50,14 @@ QuestionController {
         model.addAttribute("questionNumber", questionNumber);
         model.addAttribute("questionCount", NUMBER_OF_QUESTIONS);
 
-        Optional<Question> question = questionDao.findById(questionNumber);
+        if (questionNumber == 1) {
+            quizQuestionIds.clear();
+            getRandomIdList();
+        }
+
+        int i = Math.toIntExact(questionNumber);
+        long id = (long) quizQuestionIds.get(i - 1);
+        Optional<Question> question = questionDao.findById(id);
         if (question.isPresent()) {
             questionID = question.get().getId();
             String questionText = question.get().getQuestionText();
@@ -63,6 +66,7 @@ QuestionController {
             model.addAttribute("questionText", questionText);
             model.addAttribute("answers", answers);
         }
+
         return "questions";
     }
 
@@ -80,30 +84,26 @@ QuestionController {
 
         userAnswerDao.save(new UserAnswer(userId, questionID, 1L));
 
+        String redirectUrl;
         if (questionNumber < NUMBER_OF_QUESTIONS) {
             questionNumber++;
             redirectUrl = "/questions?questionNumber=" + questionNumber;
         } else {
+            questionNumber = 1;
             redirectUrl = "/quiz_panel";
         }
 
         return "redirect:" + redirectUrl;
     }
 
-//    private List<Question> getRandomQuestions() {
-//        Random rd = new Random();
-//        Set<Integer> questionIdSet = new HashSet<>();
-//        while (questionIdSet.size() < 5) {
-//            int x = rd.nextInt(20) + 1;
-//            questionIdSet.add(x);
-//        }
-//        System.out.println(questionIdSet);
-//        for (Integer i : questionIdSet) {
-//            Optional<Question> question = questionDao.findById((long) i);
-//            if(question.isPresent()) {
-//
-//            }
-//        }
-//        return questionIdSet;
-//    }
+    private void getRandomIdList() {
+        Random rd = new Random();
+        int questionCount = (int) questionDao.count();
+        Set<Integer> questionIdSet = new HashSet<>();
+        while (questionIdSet.size() < NUMBER_OF_QUESTIONS) {
+            int x = rd.nextInt(questionCount) + 1;
+            questionIdSet.add(x);
+        }
+        quizQuestionIds.addAll(questionIdSet);
+    }
 }
