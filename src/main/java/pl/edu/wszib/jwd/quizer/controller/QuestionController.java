@@ -82,7 +82,7 @@ QuestionController {
         User user = userDao.findByEmail(username);
         Long userId = user.getId();
 
-        userAnswerDao.save(new UserAnswer(userId, questionID, 1L));
+        userAnswerDao.save(new UserAnswer(userId, questionID, userAnswer.getAnswerNumber()));
 
         String redirectUrl;
         if (questionNumber < NUMBER_OF_QUESTIONS) {

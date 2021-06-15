@@ -10,15 +10,15 @@ public class UserAnswer {
     private Long id;
     private Long userId;
     private Long questionId;
-    private Long answerId;
+    private int answerNumber;
 
     public UserAnswer() {
     }
 
-    public UserAnswer(Long userId, Long questionId, Long answerId) {
+    public UserAnswer(Long userId, Long questionId, int answerNumber) {
         this.userId = userId;
         this.questionId = questionId;
-        this.answerId = answerId;
+        this.answerNumber = answerNumber;
     }
 
     public Long getId() {
@@ -45,12 +45,12 @@ public class UserAnswer {
         this.questionId = questionId;
     }
 
-    public Long getAnswerId() {
-        return answerId;
+    public int getAnswerNumber() {
+        return answerNumber;
     }
 
-    public void setAnswerId(Long answerId) {
-        this.answerId = answerId;
+    public void setAnswerNumber(int answerNumber) {
+        this.answerNumber = answerNumber;
     }
 }
 
