@@ -7,7 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.edu.wszib.jwd.quizer.dao.UserDao;
+import pl.edu.wszib.jwd.quizer.dao.UserStatDao;
 import pl.edu.wszib.jwd.quizer.model.User;
+import pl.edu.wszib.jwd.quizer.model.UserStat;
 
 import java.util.List;
 
@@ -16,6 +18,9 @@ public class MainController {
 
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    UserStatDao userStatDao;
 
     @GetMapping("")
     public String viewHomePage() {
@@ -34,6 +39,7 @@ public class MainController {
         String encodedPassword = encoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         userDao.save(user);
+        userStatDao.save(new UserStat(user.getId(), 0));
         return "register_success";
     }
 
@@ -49,5 +55,10 @@ public class MainController {
 //        List<User> listUsers = userDao.findAll();
 //        model.addAttribute("listUsers", listUsers);
         return "quiz_panel";
+    }
+
+    @GetMapping("/quiz_summary")
+    public String viewQuizSummary(Model model) {
+        return "quiz_summary";
     }
 }

@@ -22,7 +22,7 @@ public class NewQuestionController {
     public String get(Model model) {
         model.addAttribute("newQuestion", new Question());
         model.addAttribute("newAnswer", new Answer());
-        return "newQuestion";
+        return "new_question";
     }
 
     @PostMapping("/add-question")
@@ -31,6 +31,6 @@ public class NewQuestionController {
 //        for (Answer answer : question.getAnswers()) {
 //            answerDao.save(new Answer(question, answer.getAnswerText()));
 //        }
-        return "redirect:/newQuestion";
+        return "redirect:/new_question";
     }
 }

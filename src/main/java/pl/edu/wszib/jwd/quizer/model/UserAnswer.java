@@ -8,15 +8,18 @@ public class UserAnswer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Long userId;
+    private int quizNumber;
     private Long questionId;
     private int answerNumber;
 
     public UserAnswer() {
     }
 
-    public UserAnswer(Long userId, Long questionId, int answerNumber) {
+    public UserAnswer(Long userId, int quizNumber, Long questionId, int answerNumber) {
         this.userId = userId;
+        this.quizNumber = quizNumber;
         this.questionId = questionId;
         this.answerNumber = answerNumber;
     }
@@ -35,6 +38,14 @@ public class UserAnswer {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public int getQuizNumber() {
+        return quizNumber;
+    }
+
+    public void setQuizNumber(int quizNumber) {
+        this.quizNumber = quizNumber;
     }
 
     public Long getQuestionId() {

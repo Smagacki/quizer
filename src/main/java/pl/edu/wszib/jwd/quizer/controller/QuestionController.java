@@ -6,14 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.wszib.jwd.quizer.dao.AnswerDao;
-import pl.edu.wszib.jwd.quizer.dao.QuestionDao;
-import pl.edu.wszib.jwd.quizer.dao.UserAnswerDao;
-import pl.edu.wszib.jwd.quizer.dao.UserDao;
-import pl.edu.wszib.jwd.quizer.model.Answer;
-import pl.edu.wszib.jwd.quizer.model.Question;
-import pl.edu.wszib.jwd.quizer.model.User;
-import pl.edu.wszib.jwd.quizer.model.UserAnswer;
+import pl.edu.wszib.jwd.quizer.dao.*;
+import pl.edu.wszib.jwd.quizer.model.*;
 
 import java.util.*;
 
@@ -32,6 +26,9 @@ QuestionController {
 
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    UserStatDao userStatDao;
 
     private final int NUMBER_OF_QUESTIONS = 5;
     private Long questionID;
@@ -82,7 +79,7 @@ QuestionController {
         User user = userDao.findByEmail(username);
         Long userId = user.getId();
 
-        userAnswerDao.save(new UserAnswer(userId, questionID, userAnswer.getAnswerNumber()));
+        userAnswerDao.save(new UserAnswer(userId, 1, questionID, userAnswer.getAnswerNumber()));
 
         String redirectUrl;
         if (questionNumber < NUMBER_OF_QUESTIONS) {
@@ -90,7 +87,8 @@ QuestionController {
             redirectUrl = "/questions?questionNumber=" + questionNumber;
         } else {
             questionNumber = 1;
-            redirectUrl = "/quiz_panel";
+            //redirectUrl = "/quiz_panel";
+            redirectUrl = "/quiz_summary";
         }
 
         return "redirect:" + redirectUrl;
