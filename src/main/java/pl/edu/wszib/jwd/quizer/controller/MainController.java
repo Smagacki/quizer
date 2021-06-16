@@ -38,8 +38,8 @@ public class MainController {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String encodedPassword = encoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
+        user.setNumberOfQuizes(0);
         userDao.save(user);
-        userStatDao.save(new UserStat(user.getId(), 0));
         return "register_success";
     }
 

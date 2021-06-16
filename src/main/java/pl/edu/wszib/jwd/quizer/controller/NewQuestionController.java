@@ -11,6 +11,8 @@ import pl.edu.wszib.jwd.quizer.dao.QuestionDao;
 import pl.edu.wszib.jwd.quizer.model.Answer;
 import pl.edu.wszib.jwd.quizer.model.Question;
 
+import java.util.List;
+
 @Controller
 public class NewQuestionController {
     @Autowired
@@ -28,9 +30,10 @@ public class NewQuestionController {
     @PostMapping("/add-question")
     public String addQuestion(@ModelAttribute Question question) {
         questionDao.save(question);
-//        for (Answer answer : question.getAnswers()) {
-//            answerDao.save(new Answer(question, answer.getAnswerText()));
-//        }
+        for (int i = 0; i < question.getAnswers().size(); i++) {
+            String answerText = question.getAnswers().get(i).getAnswerText();
+            answerDao.save(new Answer(question, i, answerText, false));
+        }
         return "redirect:/new_question";
     }
 }

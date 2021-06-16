@@ -31,9 +31,11 @@ QuestionController {
     UserStatDao userStatDao;
 
     private final int NUMBER_OF_QUESTIONS = 5;
+    private Long userId;
     private Long questionID;
     private int questionNumber = 1;
     List<Integer> quizQuestionIds = new ArrayList<>();
+    int currentUserNumberOfQuizes;
 
     public QuestionController(QuestionDao questionDao, AnswerDao answerDao) {
         this.questionDao = questionDao;
@@ -50,6 +52,17 @@ QuestionController {
         if (questionNumber == 1) {
             quizQuestionIds.clear();
             getRandomIdList();
+
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String username;
+            if (principal instanceof UserDetails) {
+                username = ((UserDetails) principal).getUsername();
+            } else {
+                username = principal.toString();
+            }
+            User user = userDao.findByEmail(username);
+            userId = user.getId();
+            currentUserNumberOfQuizes = user.getNumberOfQuizes() + 1;
         }
 
         int i = Math.toIntExact(questionNumber);
@@ -69,17 +82,7 @@ QuestionController {
 
     @PostMapping("/add-user-answer")
     public String addAnswer(@ModelAttribute UserAnswer userAnswer) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username;
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails) principal).getUsername();
-        } else {
-            username = principal.toString();
-        }
-        User user = userDao.findByEmail(username);
-        Long userId = user.getId();
-
-        userAnswerDao.save(new UserAnswer(userId, 1, questionID, userAnswer.getAnswerNumber()));
+        userAnswerDao.save(new UserAnswer(userId, currentUserNumberOfQuizes, questionID, userAnswer.getAnswerNumber()));
 
         String redirectUrl;
         if (questionNumber < NUMBER_OF_QUESTIONS) {
@@ -87,7 +90,13 @@ QuestionController {
             redirectUrl = "/questions?questionNumber=" + questionNumber;
         } else {
             questionNumber = 1;
-            //redirectUrl = "/quiz_panel";
+
+            Optional<User> userById = userDao.findById(userId);
+            if (userById.isPresent()) {
+                User user = userById.get();
+                user.setNumberOfQuizes(user.getNumberOfQuizes() + 1);
+                userDao.save(user);
+            }
             redirectUrl = "/quiz_summary";
         }
 

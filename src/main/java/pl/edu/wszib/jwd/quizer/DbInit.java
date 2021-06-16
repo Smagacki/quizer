@@ -6,9 +6,8 @@ import org.springframework.stereotype.Component;
 import pl.edu.wszib.jwd.quizer.dao.AnswerDao;
 import pl.edu.wszib.jwd.quizer.dao.QuestionDao;
 import pl.edu.wszib.jwd.quizer.dao.UserDao;
-import pl.edu.wszib.jwd.quizer.model.Answer;
-import pl.edu.wszib.jwd.quizer.model.Question;
-import pl.edu.wszib.jwd.quizer.model.User;
+import pl.edu.wszib.jwd.quizer.dao.UserStatDao;
+import pl.edu.wszib.jwd.quizer.model.*;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -24,6 +23,9 @@ public class DbInit {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private UserStatDao userStatDao;
 
     @PostConstruct
     private void saveInitialData() {
@@ -133,10 +135,13 @@ public class DbInit {
             answerDao.save(new Answer(question, questionNumber, answerRow[2], isCorrect));
         }
 
-        User user = new User("admin@gmail.com", "admin2020", "admin", "admin");
+        User user = new User("admin@gmail.com", "admin2020", "admin", "admin", 0);
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String encodedPassword = encoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         userDao.save(user);
+
+        UserStat userStat = new UserStat(user.getId(), 0, 0, 0);
+        userStatDao.save(userStat);
     }
 }

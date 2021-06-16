@@ -9,8 +9,11 @@ import pl.edu.wszib.jwd.quizer.model.UserStat;
 @Repository
 public interface UserStatDao extends JpaRepository<UserStat, Long> {
 
-//    @Query("select u from User u where u.email = ?1")
+//    @Query("select u from UserStat u where u.email = ?1")
 //    User findByEmail(String email);
+
+    @Query("select max(u.quizNumber) from UserStat u where u.id = ?1")
+    int findTopById(Long id);
 
 }
 

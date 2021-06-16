@@ -10,15 +10,18 @@ public class UserStat {
     private Long id;
 
     private Long userId;
-
-    private int numberOfQuizes;
+    private int quizNumber;
+    int correctAnswer;
+    int wrongAnswer;
 
     public UserStat() {
     }
 
-    public UserStat(Long userId, int numberOfQuizes) {
+    public UserStat(Long userId, int quizNumber, int correctAnswer, int wrongAnswer) {
         this.userId = userId;
-        this.numberOfQuizes = numberOfQuizes;
+        this.quizNumber = quizNumber;
+        this.correctAnswer = correctAnswer;
+        this.wrongAnswer = wrongAnswer;
     }
 
     public Long getId() {
@@ -37,11 +40,27 @@ public class UserStat {
         this.userId = userId;
     }
 
-    public int getNumberOfQuizes() {
-        return numberOfQuizes;
+    public int getQuizNumber() {
+        return quizNumber;
     }
 
-    public void setNumberOfQuizes(int numberOfQuizes) {
-        this.numberOfQuizes = numberOfQuizes;
+    public void setQuizNumber(int quizNumber) {
+        this.quizNumber = quizNumber;
+    }
+
+    public int getCorrectAnswer() {
+        return correctAnswer;
+    }
+
+    public void setCorrectAnswer(int correctAnswer) {
+        this.correctAnswer = correctAnswer;
+    }
+
+    public int getWrongAnswer() {
+        return wrongAnswer;
+    }
+
+    public void setWrongAnswer(int wrongAnswer) {
+        this.wrongAnswer = wrongAnswer;
     }
 }

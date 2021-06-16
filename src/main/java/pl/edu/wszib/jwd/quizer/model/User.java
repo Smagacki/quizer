@@ -20,20 +20,18 @@ public class User {
 
     @Column(nullable = false, length = 20)
     private String lastName;
-//    private int age;
-//    private String login;
 
+    private int numberOfQuizes;
 
     public User() {
     }
 
-    public User(String email, String password, String firstName, String lastName) {
+    public User(String email, String password, String firstName, String lastName, int numberOfQuizes) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-//        this.age = age;
-//        this.login = login;
+        this.numberOfQuizes = numberOfQuizes;
     }
 
     public Long getId() {
@@ -76,20 +74,11 @@ public class User {
         this.lastName = lastName;
     }
 
-//    public int getAge() {
-//        return age;
-//    }
-//
-//    public void setAge(int age) {
-//        this.age = age;
-//    }
-//
-//    public String getLogin() {
-//        return login;
-//    }
-//
-//    public void setLogin(String login) {
-//        this.login = login;
-//    }
+    public int getNumberOfQuizes() {
+        return numberOfQuizes;
+    }
 
+    public void setNumberOfQuizes(int numberOfQuizes) {
+        this.numberOfQuizes = numberOfQuizes;
+    }
 }
