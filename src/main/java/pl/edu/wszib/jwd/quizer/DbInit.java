@@ -131,7 +131,7 @@ public class DbInit {
             int i = Integer.parseInt(answerRow[0]);
             Question question = allQuestions.get(i - 1);
             int questionNumber = Integer.parseInt(answerRow[1]);
-            boolean isCorrect = answerRow[2].equals("Y");
+            boolean isCorrect = answerRow[3].equals("Y");
             answerDao.save(new Answer(question, questionNumber, answerRow[2], isCorrect));
         }
 
@@ -140,8 +140,5 @@ public class DbInit {
         String encodedPassword = encoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         userDao.save(user);
-
-        UserStat userStat = new UserStat(user.getId(), 0, 0, 0);
-        userStatDao.save(userStat);
     }
 }

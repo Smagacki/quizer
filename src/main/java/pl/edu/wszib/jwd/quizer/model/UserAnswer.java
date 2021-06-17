@@ -14,14 +14,19 @@ public class UserAnswer {
     private Long questionId;
     private int answerNumber;
 
+    @Column(nullable = false)
+    private boolean isCorrect;
+
     public UserAnswer() {
     }
 
-    public UserAnswer(Long userId, int quizNumber, Long questionId, int answerNumber) {
+    public UserAnswer(Long userId, int quizNumber, Long questionId, int answerNumber, boolean isCorrect) {
         this.userId = userId;
         this.quizNumber = quizNumber;
         this.questionId = questionId;
         this.answerNumber = answerNumber;
+        this.isCorrect = isCorrect;
+
     }
 
     public Long getId() {
@@ -62,6 +67,14 @@ public class UserAnswer {
 
     public void setAnswerNumber(int answerNumber) {
         this.answerNumber = answerNumber;
+    }
+
+    public boolean isCorrect() {
+        return isCorrect;
+    }
+
+    public void setCorrect(boolean correct) {
+        isCorrect = correct;
     }
 }
 

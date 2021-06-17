@@ -31,11 +31,11 @@ QuestionController {
     UserStatDao userStatDao;
 
     private final int NUMBER_OF_QUESTIONS = 5;
-    private Long userId;
+    private User user;
     private Long questionID;
     private int questionNumber = 1;
-    List<Integer> quizQuestionIds = new ArrayList<>();
-    int currentUserNumberOfQuizes;
+    private int correctAnswerNumber = 0;
+    private final List<Integer> quizQuestionIds = new ArrayList<>();
 
     public QuestionController(QuestionDao questionDao, AnswerDao answerDao) {
         this.questionDao = questionDao;
@@ -50,19 +50,12 @@ QuestionController {
         model.addAttribute("questionCount", NUMBER_OF_QUESTIONS);
 
         if (questionNumber == 1) {
+            setCurrentUser();
+            user.setNumberOfQuizes(user.getNumberOfQuizes() + 1);
+            userDao.save(user);
+
             quizQuestionIds.clear();
             getRandomIdList();
-
-            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            String username;
-            if (principal instanceof UserDetails) {
-                username = ((UserDetails) principal).getUsername();
-            } else {
-                username = principal.toString();
-            }
-            User user = userDao.findByEmail(username);
-            userId = user.getId();
-            currentUserNumberOfQuizes = user.getNumberOfQuizes() + 1;
         }
 
         int i = Math.toIntExact(questionNumber);
@@ -72,6 +65,7 @@ QuestionController {
             questionID = question.get().getId();
             String questionText = question.get().getQuestionText();
             List<Answer> answers = question.get().getAnswers();
+            setCorrectAnswerNumber(answers);
 
             model.addAttribute("questionText", questionText);
             model.addAttribute("answers", answers);
@@ -82,7 +76,9 @@ QuestionController {
 
     @PostMapping("/add-user-answer")
     public String addAnswer(@ModelAttribute UserAnswer userAnswer) {
-        userAnswerDao.save(new UserAnswer(userId, currentUserNumberOfQuizes, questionID, userAnswer.getAnswerNumber()));
+
+        boolean answerIsCorrect = userAnswer.getAnswerNumber() == correctAnswerNumber;
+        userAnswerDao.save(new UserAnswer(user.getId(), user.getNumberOfQuizes(), questionID, userAnswer.getAnswerNumber(), answerIsCorrect));
 
         String redirectUrl;
         if (questionNumber < NUMBER_OF_QUESTIONS) {
@@ -90,13 +86,7 @@ QuestionController {
             redirectUrl = "/questions?questionNumber=" + questionNumber;
         } else {
             questionNumber = 1;
-
-            Optional<User> userById = userDao.findById(userId);
-            if (userById.isPresent()) {
-                User user = userById.get();
-                user.setNumberOfQuizes(user.getNumberOfQuizes() + 1);
-                userDao.save(user);
-            }
+            userStatDao.save(new UserStat(user.getId(), user.getNumberOfQuizes(), 2, 3));
             redirectUrl = "/quiz_summary";
         }
 
@@ -112,5 +102,25 @@ QuestionController {
             questionIdSet.add(x);
         }
         quizQuestionIds.addAll(questionIdSet);
+    }
+
+    private void setCorrectAnswerNumber(List<Answer> answers) {
+        for (Answer answer : answers) {
+            if (answer.isCorrect()) {
+                correctAnswerNumber = answer.getAnswerNumber();
+                break;
+            }
+        }
+    }
+
+    private void setCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email;
+        if (principal instanceof UserDetails) {
+            email = ((UserDetails) principal).getUsername();
+        } else {
+            email = principal.toString();
+        }
+        user = userDao.findByEmail(email);
     }
 }

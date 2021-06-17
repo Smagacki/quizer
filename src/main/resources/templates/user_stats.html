@@ -14,6 +14,9 @@
         <p>Your stats</p>
     </div>
     <div>
+        <p th:text="'Ilość quizów ' + ${numberOfQuizes}"></p>
+        <p th:text="'Ilość poprawnych ' + ${numberOfCorrect}"></p>
+        <p th:text="'Ilość niepoprawnych ' + ${numberOfWrong}"></p>
         <a th:href="@{/quiz_panel}" class="btn btn-primary mt-2">Back to quiz panel</a>
     </div>
 </div>
