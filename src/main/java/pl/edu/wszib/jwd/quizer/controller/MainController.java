@@ -52,13 +52,8 @@ public class MainController {
 
     @GetMapping("/quiz_panel")
     public String viewQuizPanel(Model model) {
-//        List<User> listUsers = userDao.findAll();
-//        model.addAttribute("listUsers", listUsers);
         return "quiz_panel";
     }
 
-    @GetMapping("/quiz_summary")
-    public String viewQuizSummary(Model model) {
-        return "quiz_summary";
-    }
+
 }

@@ -13,7 +13,7 @@ import java.util.*;
 
 @Controller
 public class
-QuestionController {
+QuizController {
 
     @Autowired
     QuestionDao questionDao;
@@ -35,9 +35,12 @@ QuestionController {
     private Long questionID;
     private int questionNumber = 1;
     private int correctAnswerNumber = 0;
+    private int correctAnswerCount = 0;
+    private int wrongAnswerCount = 0;
+    private int percentageSuccess = 0;
     private final List<Integer> quizQuestionIds = new ArrayList<>();
 
-    public QuestionController(QuestionDao questionDao, AnswerDao answerDao) {
+    public QuizController(QuestionDao questionDao, AnswerDao answerDao) {
         this.questionDao = questionDao;
         this.answerDao = answerDao;
     }
@@ -56,6 +59,7 @@ QuestionController {
 
             quizQuestionIds.clear();
             getRandomIdList();
+            correctAnswerNumber = wrongAnswerCount = 0;
         }
 
         int i = Math.toIntExact(questionNumber);
@@ -78,6 +82,11 @@ QuestionController {
     public String addAnswer(@ModelAttribute UserAnswer userAnswer) {
 
         boolean answerIsCorrect = userAnswer.getAnswerNumber() == correctAnswerNumber;
+        if (answerIsCorrect)
+            correctAnswerCount++;
+        else
+            wrongAnswerCount++;
+
         userAnswerDao.save(new UserAnswer(user.getId(), user.getNumberOfQuizes(), questionID, userAnswer.getAnswerNumber(), answerIsCorrect));
 
         String redirectUrl;
@@ -85,12 +94,19 @@ QuestionController {
             questionNumber++;
             redirectUrl = "/questions?questionNumber=" + questionNumber;
         } else {
+            userStatDao.save(new UserStat(user.getId(), user.getNumberOfQuizes(), correctAnswerCount, wrongAnswerCount));
+            percentageSuccess = (correctAnswerCount * 100 / NUMBER_OF_QUESTIONS);
             questionNumber = 1;
-            userStatDao.save(new UserStat(user.getId(), user.getNumberOfQuizes(), 2, 3));
             redirectUrl = "/quiz_summary";
         }
 
         return "redirect:" + redirectUrl;
+    }
+
+    @GetMapping("/quiz_summary")
+    public String viewQuizSummary(Model model) {
+        model.addAttribute("percentageSuccess", percentageSuccess);
+        return "quiz_summary";
     }
 
     private void getRandomIdList() {
