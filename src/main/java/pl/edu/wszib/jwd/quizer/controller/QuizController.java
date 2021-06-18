@@ -59,7 +59,7 @@ QuizController {
 
             quizQuestionIds.clear();
             getRandomIdList();
-            correctAnswerNumber = wrongAnswerCount = 0;
+            correctAnswerCount = wrongAnswerCount = percentageSuccess = 0;
         }
 
         int i = Math.toIntExact(questionNumber);
