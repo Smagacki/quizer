@@ -135,7 +135,7 @@ public class DbInit {
             answerDao.save(new Answer(question, questionNumber, answerRow[2], isCorrect));
         }
 
-        User user = new User("admin@gmail.com", "admin2020", "admin", "admin", 0);
+        User user = new User("admin@gmail.com", "admin2020", "admin", "admin");
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String encodedPassword = encoder.encode(user.getPassword());
         user.setPassword(encodedPassword);

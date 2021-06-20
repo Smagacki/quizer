@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,7 +13,7 @@
         <p>Quiz summary</p>
     </div>
     <div>
-        <p th:text="'Your percentage success is ' + ${percentageSuccess}"></p>
+        <p th:text="'Your percentage success is ' + ${percentageSuccess} + ' %'"></p>
     </div>
     <div>
         <a th:href="@{/quiz_panel}" class="btn btn-primary mt-2">Back to quiz panel</a>

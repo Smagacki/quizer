@@ -21,17 +21,14 @@ public class User {
     @Column(nullable = false, length = 20)
     private String lastName;
 
-    private int numberOfQuizes;
-
     public User() {
     }
 
-    public User(String email, String password, String firstName, String lastName, int numberOfQuizes) {
+    public User(String email, String password, String firstName, String lastName) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.numberOfQuizes = numberOfQuizes;
     }
 
     public Long getId() {
@@ -72,13 +69,5 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public int getNumberOfQuizes() {
-        return numberOfQuizes;
-    }
-
-    public void setNumberOfQuizes(int numberOfQuizes) {
-        this.numberOfQuizes = numberOfQuizes;
     }
 }

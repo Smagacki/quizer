@@ -11,8 +11,6 @@ import pl.edu.wszib.jwd.quizer.dao.QuestionDao;
 import pl.edu.wszib.jwd.quizer.model.Answer;
 import pl.edu.wszib.jwd.quizer.model.Question;
 
-import java.util.List;
-
 @Controller
 public class NewQuestionController {
     @Autowired
@@ -20,7 +18,7 @@ public class NewQuestionController {
     @Autowired
     AnswerDao answerDao;
 
-    @GetMapping("/newQuestion")
+    @GetMapping("/new_question")
     public String get(Model model) {
         model.addAttribute("newQuestion", new Question());
         model.addAttribute("newAnswer", new Answer());
@@ -32,7 +30,10 @@ public class NewQuestionController {
         questionDao.save(question);
         for (int i = 0; i < question.getAnswers().size(); i++) {
             String answerText = question.getAnswers().get(i).getAnswerText();
-            answerDao.save(new Answer(question, i, answerText, false));
+            if ((answerText != null) && !answerText.isEmpty())
+                answerDao.save(new Answer(question, i + 1, answerText, false));
+            else
+                break;
         }
         return "redirect:/new_question";
     }

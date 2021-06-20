@@ -1,13 +1,12 @@
 package pl.edu.wszib.jwd.quizer.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.wszib.jwd.quizer.dao.*;
 import pl.edu.wszib.jwd.quizer.model.*;
+import pl.edu.wszib.jwd.quizer.service.UserService;
 
 import java.util.*;
 
@@ -30,10 +29,17 @@ QuizController {
     @Autowired
     UserStatDao userStatDao;
 
+    @Autowired
+    UserStatTotalDao userStatTotalDao;
+
+    @Autowired
+    UserService userService;
+
     private final int NUMBER_OF_QUESTIONS = 5;
     private User user;
     private Long questionID;
     private int questionNumber = 1;
+    private int userQuizCount = 0;
     private int correctAnswerNumber = 0;
     private int correctAnswerCount = 0;
     private int wrongAnswerCount = 0;
@@ -53,9 +59,14 @@ QuizController {
         model.addAttribute("questionCount", NUMBER_OF_QUESTIONS);
 
         if (questionNumber == 1) {
-            setCurrentUser();
-            user.setNumberOfQuizes(user.getNumberOfQuizes() + 1);
-            userDao.save(user);
+            user = userService.getCurrentUser();
+
+            List<UserStatTotal> userStat = userStatTotalDao.findByUserId(user.getId());
+            if (userStat.size() == 0) {
+                userQuizCount = 1;
+            } else {
+                userQuizCount += 1;
+            }
 
             quizQuestionIds.clear();
             getRandomIdList();
@@ -82,20 +93,24 @@ QuizController {
     public String addAnswer(@ModelAttribute UserAnswer userAnswer) {
 
         boolean answerIsCorrect = userAnswer.getAnswerNumber() == correctAnswerNumber;
-        if (answerIsCorrect)
+        if (answerIsCorrect) {
             correctAnswerCount++;
-        else
+        } else {
             wrongAnswerCount++;
+        }
 
-        userAnswerDao.save(new UserAnswer(user.getId(), user.getNumberOfQuizes(), questionID, userAnswer.getAnswerNumber(), answerIsCorrect));
+        userAnswerDao.save(new UserAnswer(user.getId(), userQuizCount, questionID, userAnswer.getAnswerNumber(), answerIsCorrect));
 
         String redirectUrl;
         if (questionNumber < NUMBER_OF_QUESTIONS) {
             questionNumber++;
             redirectUrl = "/questions?questionNumber=" + questionNumber;
         } else {
-            userStatDao.save(new UserStat(user.getId(), user.getNumberOfQuizes(), correctAnswerCount, wrongAnswerCount));
-            percentageSuccess = (correctAnswerCount * 100 / NUMBER_OF_QUESTIONS);
+            userStatDao.save(new UserStat(user.getId(), userQuizCount, correctAnswerCount, wrongAnswerCount));
+            percentageSuccess = correctAnswerCount * 100 / NUMBER_OF_QUESTIONS;
+
+            updateUserStatTotal();
+
             questionNumber = 1;
             redirectUrl = "/quiz_summary";
         }
@@ -129,14 +144,24 @@ QuizController {
         }
     }
 
-    private void setCurrentUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String email;
-        if (principal instanceof UserDetails) {
-            email = ((UserDetails) principal).getUsername();
+    private void updateUserStatTotal() {
+        List<UserStatTotal> userStat = userStatTotalDao.findByUserId(user.getId());
+        if (userStat.size() == 0) {
+            userStatTotalDao.save(new UserStatTotal(user.getId(), user.getEmail(), userQuizCount, correctAnswerCount, wrongAnswerCount, percentageSuccess));
         } else {
-            email = principal.toString();
+            UserStatTotal userStatTotalUpd = userStat.get(0);
+
+            //int newQuizCount = userStatTotalUpd.getQuizCount() + 1;
+            int newCorrectAnswerCount = userStatTotalUpd.getCorrectAnswerCount() + correctAnswerCount;
+            int newWwrongAnswerCount = userStatTotalUpd.getWrongAnswerCount() + wrongAnswerCount;
+            int newPercentageSuccess = newCorrectAnswerCount * 100 / (newCorrectAnswerCount + newWwrongAnswerCount);
+
+            userStatTotalUpd.setQuizCount(userQuizCount);
+            userStatTotalUpd.setCorrectAnswerCount(newCorrectAnswerCount);
+            userStatTotalUpd.setWrongAnswerCount(newWwrongAnswerCount);
+            userStatTotalUpd.setPercentageSuccess(newPercentageSuccess);
+
+            userStatTotalDao.save(userStatTotalUpd);
         }
-        user = userDao.findByEmail(email);
     }
 }

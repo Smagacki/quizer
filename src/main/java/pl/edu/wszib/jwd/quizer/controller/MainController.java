@@ -11,6 +11,7 @@ import pl.edu.wszib.jwd.quizer.dao.UserStatDao;
 import pl.edu.wszib.jwd.quizer.model.User;
 import pl.edu.wszib.jwd.quizer.model.UserStat;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Controller
@@ -38,9 +39,14 @@ public class MainController {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String encodedPassword = encoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-        user.setNumberOfQuizes(0);
-        userDao.save(user);
-        return "register_success";
+
+        User userById = userDao.findByEmail(user.getEmail());
+        if (userById == null) {
+            userDao.save(user);
+            return "register_success";
+        } else {
+            return "register_fail";
+        }
     }
 
     @GetMapping("/list_users")
@@ -54,6 +60,4 @@ public class MainController {
     public String viewQuizPanel(Model model) {
         return "quiz_panel";
     }
-
-
 }
