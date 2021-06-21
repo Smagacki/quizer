@@ -10,7 +10,7 @@ html, body {
     display: flex;
 }
 
-.sub-contener {
+.sub-container {
     width: 50%;
     height: 100%;
     display: flex;
@@ -30,4 +30,8 @@ html, body {
     font-size: 45px;
     text-align: center;
     vertical-align: center;
+}
+
+.main-btn-div {
+    width: 50%;
 }

@@ -13,40 +13,50 @@
             <h1>Adding new questions</h1>
         </div>
         <div class="form-group row col-12 mt-4">
-            <label class="col-form-label">QUESTION</label>
+            <label for="languages"><b>LANGUAGE</b></label>
+            <div class="col-12">
+                <select name="languages" id="languages" style="width: 100px;" th:field="*{language}">
+                    <option value="Java">Java</option>
+                    <option value="SQL">SQL</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row col-12 mt-4">
+            <label class="col-form-label"><b>QUESTION</b></label>
             <div class="col-12">
                 <textarea class="form-control" name="" cols="300" rows="2" th:field="*{questionText}"
                           placeholder="Write question text here..." required></textarea>
             </div>
         </div>
         <div class="form-group row col-12">
-            <label class="col-form-label">ANSWERS</label>
+            <label class="col-form-label"><b>CORRECT ANSWER</b></label>
             <div class="col-12">
                 <textarea class="form-control" name="" cols="300" rows="2" th:field="*{answers[0].answerText}"
-                          placeholder="Write answer no. 1 text here..." required></textarea>
+                          placeholder="Write correct answer here..." required></textarea>
             </div>
         </div>
         <div class="form-group row col-12">
+            <label class="col-form-label"><b>OTHER ANSWERS</b></label>
             <div class="col-12">
                 <textarea class="form-control" name="" cols="300" rows="2" th:field="*{answers[1].answerText}"
-                          placeholder="Write answer no. 2 text here..." required></textarea>
+                          placeholder="Write other answer here..." required></textarea>
             </div>
         </div>
         <div class="form-group row col-12">
             <div class="col-12">
                 <textarea class="form-control" name="" cols="300" rows="2" th:field="*{answers[2].answerText}"
-                          placeholder="Write answer no. 3 text here..."></textarea>
+                          placeholder="Write other answer here..."></textarea>
             </div>
         </div>
         <div class="form-group row col-12">
             <div class="col-12">
                 <textarea class="form-control" name="" cols="300" rows="2" th:field="*{answers[3].answerText}"
-                          placeholder="Write answer no. 4 text here..."></textarea>
+                          placeholder="Write other answer here..."></textarea>
             </div>
         </div>
-        <div class="button-panel mt-5">
-            <button type="submit" class="btn btn-primary">Add new question</button>
-            <a th:href="@{/quiz_panel}" class="btn btn-primary ml-4">Back to quiz panel</a>
+        <div class="button-panel mt-4">
+            <button type="submit" class="btn btn-outline-primary">Add new question</button>
+            <a th:href="@{/quiz_panel}" class="btn btn-outline-primary ml-4">Back to quiz panel</a>
         </div>
     </form>
 </div>

@@ -13,17 +13,17 @@
     <div>
         <div>
             <form th:action="@{/logout}" method="post">
-                <p>
+                <h1>
                     Welcome <b>[[${#request.userPrincipal.principal.fullName}]]</b>
-                </p>
+                </h1>
                 <input class="mt-2" type="submit" value="Sign out">
             </form>
         </div>
         <div class="d-flex flex-column p-5">
-            <a th:href="@{/questions?questionNumber=1}" class="btn btn-primary mt-5">Start new quiz</a>
-            <a th:href="@{/new_question}" class="btn btn-primary mt-3">Add new questions</a>
-            <a th:href="@{/user_stats}" class="btn btn-primary mt-3">Current user stats</a>
-            <a th:href="@{/all_stats}" class="btn btn-primary mt-3">All users stats</a>
+            <a th:href="@{/questions?questionNumber=1}" class="btn btn-outline-primary btn-lg mt-5">Start new quiz</a>
+            <a th:href="@{/new_question}" class="btn btn-outline-primary btn-lg mt-3">Add new questions</a>
+            <a th:href="@{/user_stats}" class="btn btn-outline-primary btn-lg mt-3">Current user stats</a>
+            <a th:href="@{/all_stats}" class="btn btn-outline-primary btn-lg mt-3">All users stats</a>
         </div>
     </div>
 </div>

@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Quizer - home page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Quizer - home page</title>
 
-  <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
 <div class="container text-center d-flex p-2">
-    <div class="sub-contener">
+    <div class="sub-container">
         <img src="quizer_logo.png" alt="QUIZER" width="700" height="700">
     </div>
-    <div class="sub-contener">
-        <a th:href="@{/register}" class="btn btn-primary">Register</a>
-        <a th:href="@{/login}" class="btn btn-primary mt-5">Login</a>
-<!--        <a th:href="@{/list_users}" class="btn btn-primary mt-2">List all users</a>-->
+    <div class="sub-container">
+        <div class="main-btn-div">
+            <a th:href="@{/register}" class="btn btn-outline-primary btn-lg btn-block">Register</a>
+            <a th:href="@{/login}" class="btn btn-outline-primary btn-lg btn-block mt-5">Login</a>
+            <!--        <a th:href="@{/list_users}" class="btn btn-primary mt-2">List all users</a>-->
+        </div>
     </div>
 </div>
 </body>
