@@ -73,6 +73,12 @@ QuizController {
             correctAnswerCount = wrongAnswerCount = percentageSuccess = 0;
         }
 
+        if(questionNumber == NUMBER_OF_QUESTIONS) {
+            model.addAttribute("button_text", "finish");
+        } else {
+            model.addAttribute("button_text", "next");
+        }
+
         int i = Math.toIntExact(questionNumber);
         long id = (long) quizQuestionIds.get(i - 1);
         Optional<Question> question = questionDao.findById(id);

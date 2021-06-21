@@ -3,29 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Questions</title>
-<!--    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css">-->
+<!--        <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css">-->
     <link rel="stylesheet" href="questions.css">
 </head>
 <body>
-<!--<div class="container align-items-center d-flex flex-column">-->
-    <div>
-        <p class="counter" th:text="'Question ' + ${questionNumber} + ' of ' + ${questionCount}"></p>
-        <p class="question" th:text="${questionText}"></p>
-    </div>
-    <div class="answers">
-        <form th:action="@{/add-user-answer}" th:object="${newUserAnswer}" method="post" class="mt-5">
-            <div class="form-group">
-                <div th:each="answer: ${answers}">
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" name="answer" th:value="${answer.answerNumber}" th:field="*{answerNumber}"
-                               class="custom-control-input">
-                        <label class="custom-control-label" th:text="${answer.answerText}">model</label>
+<div class="container">
+    <div class="sub-container">
+        <div>
+            <p class="counter" th:text="'Question ' + ${questionNumber} + ' of ' + ${questionCount}"></p>
+            <p class="question" th:text="${questionText}"></p>
+        </div>
+        <div class="answers">
+            <form th:action="@{/add-user-answer}" th:object="${newUserAnswer}" method="post" class="mt-5">
+                <div class="form-group">
+                    <div th:each="answer: ${answers}">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" name="answer" th:value="${answer.answerNumber}"
+                                   th:field="*{answerNumber}"
+                                   class="custom-control-input">
+                            <label class="custom-control-label" th:text="${answer.answerText}">model</label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <p><input class="button" type="submit" value="next"></p>
-        </form>
+                <p><input class="button" type="submit" th:value="${button_text}"></p>
+            </form>
+        </div>
     </div>
-<!--</div>-->
+</div>
 </body>
 </html>
