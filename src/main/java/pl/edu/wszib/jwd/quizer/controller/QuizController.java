@@ -11,8 +11,7 @@ import pl.edu.wszib.jwd.quizer.service.UserService;
 import java.util.*;
 
 @Controller
-public class
-QuizController {
+public class QuizController {
 
     @Autowired
     QuestionDao questionDao;
@@ -126,7 +125,7 @@ QuizController {
 
     @GetMapping("/quiz_summary")
     public String viewQuizSummary(Model model) {
-        model.addAttribute("percentageSuccess", percentageSuccess);
+        model.addAttribute("chartData", getChartData());
         return "quiz_summary";
     }
 
@@ -157,7 +156,6 @@ QuizController {
         } else {
             UserStatTotal userStatTotalUpd = userStat.get(0);
 
-            //int newQuizCount = userStatTotalUpd.getQuizCount() + 1;
             int newCorrectAnswerCount = userStatTotalUpd.getCorrectAnswerCount() + correctAnswerCount;
             int newWwrongAnswerCount = userStatTotalUpd.getWrongAnswerCount() + wrongAnswerCount;
             int newPercentageSuccess = newCorrectAnswerCount * 100 / (newCorrectAnswerCount + newWwrongAnswerCount);
@@ -169,5 +167,22 @@ QuizController {
 
             userStatTotalDao.save(userStatTotalUpd);
         }
+    }
+
+    private List<List<Object>> getChartData() {
+        List<List<Object>> list = new ArrayList<>();
+
+        List<Object> correctAnswers = new ArrayList<>();
+        correctAnswers.add("Correct answers");
+        correctAnswers.add(correctAnswerCount);
+
+        List<Object> wrongAnswers = new ArrayList<>();
+        wrongAnswers.add("Wrong answers");
+        wrongAnswers.add(wrongAnswerCount);
+
+        list.add(correctAnswers);
+        list.add(wrongAnswers);
+
+        return list;
     }
 }

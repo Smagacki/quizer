@@ -2,21 +2,43 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Quizer - quiz summary</title>
 
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="quiz_summary.css">
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'Slices');
+            data.addRows([[${chartData}]]);
+
+            var options = {'title':'Percentage success',
+                'width': 800,
+                'height': 600,
+                'is3D': true};
+
+            var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+        }
+    </script>
 </head>
 <body>
-<div class="container text-center">
+<div class="container align-items-center d-flex justify-content-center">
     <div>
-        <p>Quiz summary</p>
-    </div>
-    <div>
-        <p th:text="'Your percentage success is ' + ${percentageSuccess} + ' %'"></p>
-    </div>
-    <div>
-        <a th:href="@{/quiz_panel}" class="btn btn-primary mt-2">Back to quiz panel</a>
+        <div>
+            <h1>Quiz summary</h1>
+        </div>
+        <div id="chart_div"></div>
+        <div>
+            <a th:href="@{/quiz_panel}" class="btn btn-outline-primary btn-lg">Back to quiz panel</a>
+        </div>
     </div>
 </div>
 </body>

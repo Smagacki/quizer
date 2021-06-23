@@ -4,7 +4,30 @@
     <meta charset="UTF-8">
     <title>Quizer - user stats</title>
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="user_stats.css">
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'Slices');
+            data.addRows([[${chartData}]]);
+
+            var options = {'title':'Percentage success',
+                'width': 600,
+                'height': 450,
+                'is3D': true};
+
+            var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+        }
+
+    </script>
 </head>
 <body>
 <div class="container align-items-center d-flex justify-content-center">
@@ -12,7 +35,7 @@
         <div>
             <h1>Current user stats</h1>
         </div>
-        <div class="user-stats mt-5">
+        <div class="mt-5">
             <table class="table table-striped table-bordered table-hover">
                 <tbody>
                 <tr>
@@ -33,7 +56,8 @@
                 </tr>
                 </tbody>
             </table>
-            <a th:href="@{/quiz_panel}" class="btn btn-outline-primary mt-5">Back to quiz panel</a>
+            <div id="chart_div"></div>
+            <a th:href="@{/quiz_panel}" class="btn btn-outline-primary">Back to quiz panel</a>
         </div>
     </div>
 </div>

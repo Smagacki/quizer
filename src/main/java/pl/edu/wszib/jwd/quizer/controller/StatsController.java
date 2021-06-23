@@ -35,14 +35,18 @@ public class StatsController {
     @GetMapping("/user_stats")
     public String viewUsersStats(Model model) {
         user = userService.getCurrentUser();
+        int correctAnswerCount = 0;
+        int wrongAnswerCount = 0;
 
         List<UserStatTotal> stats = userStatTotalDao.findByUserId(user.getId());
 
         if (stats.size() != 0) {
+            correctAnswerCount = stats.get(0).getCorrectAnswerCount();
+            wrongAnswerCount = stats.get(0).getWrongAnswerCount();
             model.addAttribute("numberOfQuizes", stats.get(0).getQuizCount());
             model.addAttribute("percentageSuccess", stats.get(0).getPercentageSuccess());
-            model.addAttribute("numberOfCorrect", stats.get(0).getCorrectAnswerCount());
-            model.addAttribute("numberOfWrong", stats.get(0).getWrongAnswerCount());
+            model.addAttribute("numberOfCorrect", correctAnswerCount);
+            model.addAttribute("numberOfWrong", wrongAnswerCount);
         } else {
             model.addAttribute("numberOfQuizes", 0);
             model.addAttribute("percentageSuccess", 0);
@@ -50,23 +54,44 @@ public class StatsController {
             model.addAttribute("numberOfWrong", 0);
         }
 
+        model.addAttribute("chartData", getChartData(correctAnswerCount, wrongAnswerCount));
         return "user_stats";
     }
 
     @GetMapping("/all_stats")
     public String viewAllStats(Model model) {
-        user = userService.getCurrentUser();
-
         List<UserStatTotal> stats = userStatTotalDao.findAll();
-        Set<UserResult> statSet = new TreeSet<>();
 
+        Set<UserResult> statSet = new TreeSet<>();
         for (UserStatTotal stat : stats) {
             UserResult userResult = new UserResult(stat.getUserId(), stat.getEmail(), stat.getQuizCount(),
                     stat.getCorrectAnswerCount(), stat.getWrongAnswerCount(), stat.getPercentageSuccess());
             statSet.add(userResult);
         }
 
+        int i = 0;
+        for (UserResult userResult : statSet) {
+            userResult.setPosition(++i);
+        }
+
         model.addAttribute("stats", statSet);
         return "all_stats";
+    }
+
+    private List<List<Object>> getChartData(int correctAnswerCount, int wrongAnswerCount) {
+        List<List<Object>> list = new ArrayList<>();
+
+        List<Object> correctAnswers = new ArrayList<>();
+        correctAnswers.add("Correct answers");
+        correctAnswers.add(correctAnswerCount);
+
+        List<Object> wrongAnswers = new ArrayList<>();
+        wrongAnswers.add("Wrong answers");
+        wrongAnswers.add(wrongAnswerCount);
+
+        list.add(correctAnswers);
+        list.add(wrongAnswers);
+
+        return list;
     }
 }

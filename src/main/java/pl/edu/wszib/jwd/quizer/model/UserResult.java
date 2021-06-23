@@ -3,6 +3,7 @@ package pl.edu.wszib.jwd.quizer.model;
 import org.jetbrains.annotations.NotNull;
 
 public class UserResult implements Comparable<UserResult> {
+    int position;
     long userId;
     String email;
     int quizCount;
@@ -20,6 +21,14 @@ public class UserResult implements Comparable<UserResult> {
         this.correctAnswerCount = correctAnswerCount;
         this.wrongAnswerCount = wrongAnswerCount;
         this.percentageSuccess = percentageSuccess;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public long getUserId() {
