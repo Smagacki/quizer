@@ -9,7 +9,6 @@ import pl.edu.wszib.jwd.quizer.dao.UserStatDao;
 import pl.edu.wszib.jwd.quizer.dao.UserStatTotalDao;
 import pl.edu.wszib.jwd.quizer.model.User;
 import pl.edu.wszib.jwd.quizer.model.UserResult;
-import pl.edu.wszib.jwd.quizer.model.UserStat;
 import pl.edu.wszib.jwd.quizer.model.UserStatTotal;
 import pl.edu.wszib.jwd.quizer.service.UserService;
 

@@ -3,8 +3,8 @@ window.onload = function () {
     button.disabled = true;
 
     document.querySelectorAll('.custom-control-input').forEach(item => {
-      item.addEventListener('click', event => {
-        button.disabled = false;
-      })
+        item.addEventListener('click', event => {
+            button.disabled = false;
+        })
     })
 }

@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import pl.edu.wszib.jwd.quizer.dao.UserDao;
 import pl.edu.wszib.jwd.quizer.dao.UserStatDao;
 import pl.edu.wszib.jwd.quizer.model.User;
-import pl.edu.wszib.jwd.quizer.model.UserStat;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Controller

@@ -54,13 +54,4 @@ public class Question {
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
     }
-
-    @Override
-    public String toString() {
-        return "Question{" +
-                "id=" + id +
-                ", questionText='" + questionText + '\'' +
-                ", answers=" + answers +
-                '}';
-    }
 }

@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Questions</title>
-<!--        <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css">-->
     <link rel="stylesheet" href="questions.css">
     <script src="questions.js"></script>
 </head>
@@ -11,7 +10,8 @@
 <div class="container">
     <div class="sub-container">
         <div>
-            <p class="counter" th:text="'Question ' + ${questionNumber} + ' of ' + ${questionCount}"></p>
+            <h1 class="counter" th:text="'Question ' + ${questionNumber} + ' of ' + ${questionCount}"></h1>
+            <h2 th:text="'Language: ' + ${language}"></h2>
             <p class="question" th:text="${questionText}"></p>
         </div>
         <div class="answers">

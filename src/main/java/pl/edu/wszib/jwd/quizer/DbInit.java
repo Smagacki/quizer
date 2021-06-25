@@ -49,7 +49,14 @@ public class DbInit {
                 {"17", "Kiedy garbage collector wie że może usunąć instancję obiektu?", "Java"},
                 {"18", "Po co stosuje się indeksy na bazie danych?", "SQL"},
                 {"19", "Jak sprawdzić czy wartość w kolumnie tabeli jest różna od null?", "SQL"},
-                {"20", "Jaka jest różnica między UNION a UNION ALL?", "SQL"}
+                {"20", "Jaka jest różnica między UNION a UNION ALL?", "SQL"},
+                {"21", "Deklaracja w języku JavaScript: var x=true; powoduje, że zmienna x jest typu", "JavaScript"},
+                {"22", "Zdarzenie JavaScript, będące reakcją na pojedynczo kliknięty dowolny element strony, nosi nazwę", "JavaScript"},
+                {"23", "W języku skryptowym JavaScript zmienne mogą być deklarowane", "JavaScript"},
+                {"24", "W języku JavaScript poprawnie zadeklarowana zmienna to", "JavaScript"},
+                {"25", "Komentarz w języku JavaScript rozpoczyna się od znaku lub znaków", "JavaScript"},
+                {"26", "Metoda document.getElementById(id) ma za zadanie", "JavaScript"},
+                {"27", "Aby sprawdzić warunek czy liczba znajduje się w przedziale (100;200>, należy zapisać", "JavaScript"}
         };
 
         for (String[] s : questionArray) {
@@ -122,7 +129,35 @@ public class DbInit {
                 {"19", "3", "column IS NOT NULL", "Y"},
                 {"20", "1", "nie ma między nimi różnicy; słowo ALL jest opcjonalne w zależności od typu bazy danych", "N"},
                 {"20", "2", "UNION pomija wiersze gdzie pojawiają się wartości NULL, a UNION ALL uwzględnia te wiersze", "N"},
-                {"20", "3", "UNION ignoruje duplikaty w wyniku, a UNION ALL zwraca zduplikowane wiersze", "Y"}
+                {"20", "3", "UNION ignoruje duplikaty w wyniku, a UNION ALL zwraca zduplikowane wiersze", "Y"},
+                {"21", "1", "liczbowego", "N"},
+                {"21", "2", "logicznego", "Y"},
+                {"21", "3", "wyliczeniowego", "N"},
+                {"21", "4", "tekstowego (łańcuch)", "N"},
+                {"22", "1", "onDblClick", "N"},
+                {"22", "2", "onLoad", "N"},
+                {"22", "3", "onClick", "Y"},
+                {"22", "4", "onKeyDown", "N"},
+                {"23", "1", "tylko na początku skryptu", "N"},
+                {"23", "2", "zawsze z poprzedzającym nazwę znakiem $", "N"},
+                {"23", "3", "w momencie pierwszego użycia zmiennej", "Y"},
+                {"23", "4", "tylko jeśli podamy typ zmiennej i jej nazwę", "N"},
+                {"24", "1", "#imie", "N"},
+                {"24", "2", "imię%", "N"},
+                {"24", "3", "imię2", "N"},
+                {"24", "4", "imie2", "Y"},
+                {"25", "1", "#", "N"},
+                {"25", "2", "<?", "N"},
+                {"25", "3", "//", "Y"},
+                {"25", "4", "<!--", "N"},
+                {"26", "1", "wstawić tekst o treści ’id’ na stronie WWW", "N"},
+                {"26", "2", "zwrócić odniesienie do pierwszego elementu HTML o podanym id", "Y"},
+                {"26", "3", "pobrać dane z pola formularza i wstawić je do zmiennej id/", "N"},
+                {"26", "4", "sprawdzić poprawność formularza o identyfikatorze id", "N"},
+                {"27", "1", "if (liczba > 100 && liczba <= 200)", "Y"},
+                {"27", "2", "if (liczba < 100 || liczba >= 200)", "N"},
+                {"27", "3", "if (liczba < 100 && liczba <= 200)", "N"},
+                {"27", "4", "if (liczba > 100 || liczba <= 200)", "N"}
         };
 
         List<Question> allQuestions = (List<Question>) questionDao.findAll();
@@ -135,10 +170,11 @@ public class DbInit {
             answerDao.save(new Answer(question, questionNumber, answerRow[2], isCorrect));
         }
 
-        User user = new User("admin@gmail.com", "admin2020", "admin", "admin");
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String encodedPassword = encoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-        userDao.save(user);
+        //user do testow
+//        User user = new User("admin@gmail.com", "admin2020", "admin", "admin");
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        String encodedPassword = encoder.encode(user.getPassword());
+//        user.setPassword(encodedPassword);
+//        userDao.save(user);
     }
 }

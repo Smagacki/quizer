@@ -35,14 +35,14 @@ public class QuizController {
     UserService userService;
 
     private final int NUMBER_OF_QUESTIONS = 5;
+
     private User user;
+    private UserStat userStat;
+    private UserStatTotal userStatTotal;
+
     private Long questionID;
     private int questionNumber = 1;
-    private int userQuizCount = 0;
     private int correctAnswerNumber = 0;
-    private int correctAnswerCount = 0;
-    private int wrongAnswerCount = 0;
-    private int percentageSuccess = 0;
     private final List<Integer> quizQuestionIds = new ArrayList<>();
 
     public QuizController(QuestionDao questionDao, AnswerDao answerDao) {
@@ -60,19 +60,20 @@ public class QuizController {
         if (questionNumber == 1) {
             user = userService.getCurrentUser();
 
-            List<UserStatTotal> userStat = userStatTotalDao.findByUserId(user.getId());
-            if (userStat.size() == 0) {
-                userQuizCount = 1;
+            List<UserStatTotal> userStatTotalList = userStatTotalDao.findByUserId(user.getId());
+            if (userStatTotalList.size() == 0) {
+                userStatTotal = new UserStatTotal(user.getId(), user.getEmail(), 0, 0, 0, 0);
             } else {
-                userQuizCount += 1;
+                userStatTotal = userStatTotalList.get(0);
             }
+            updateUserStatTotal("new_quiz");
+            updateUserStat("new_quiz");
 
             quizQuestionIds.clear();
             getRandomIdList();
-            correctAnswerCount = wrongAnswerCount = percentageSuccess = 0;
         }
 
-        if(questionNumber == NUMBER_OF_QUESTIONS) {
+        if (questionNumber == NUMBER_OF_QUESTIONS) {
             model.addAttribute("button_text", "finish");
         } else {
             model.addAttribute("button_text", "next");
@@ -89,6 +90,7 @@ public class QuizController {
 
             model.addAttribute("questionText", questionText);
             model.addAttribute("answers", answers);
+            model.addAttribute("language", question.get().getLanguage());
         }
 
         return "questions";
@@ -99,23 +101,16 @@ public class QuizController {
 
         boolean answerIsCorrect = userAnswer.getAnswerNumber() == correctAnswerNumber;
         if (answerIsCorrect) {
-            correctAnswerCount++;
-        } else {
-            wrongAnswerCount++;
+            updateUserStatTotal("good_answer");
+            updateUserStat("good_answer");
         }
-
-        userAnswerDao.save(new UserAnswer(user.getId(), userQuizCount, questionID, userAnswer.getAnswerNumber(), answerIsCorrect));
+        userAnswerDao.save(new UserAnswer(user.getId(), userStatTotal.getQuizCount(), questionID, userAnswer.getAnswerNumber(), answerIsCorrect));
 
         String redirectUrl;
         if (questionNumber < NUMBER_OF_QUESTIONS) {
             questionNumber++;
             redirectUrl = "/questions?questionNumber=" + questionNumber;
         } else {
-            userStatDao.save(new UserStat(user.getId(), userQuizCount, correctAnswerCount, wrongAnswerCount));
-            percentageSuccess = correctAnswerCount * 100 / NUMBER_OF_QUESTIONS;
-
-            updateUserStatTotal();
-
             questionNumber = 1;
             redirectUrl = "/quiz_summary";
         }
@@ -149,40 +144,46 @@ public class QuizController {
         }
     }
 
-    private void updateUserStatTotal() {
-        List<UserStatTotal> userStat = userStatTotalDao.findByUserId(user.getId());
-        if (userStat.size() == 0) {
-            userStatTotalDao.save(new UserStatTotal(user.getId(), user.getEmail(), userQuizCount, correctAnswerCount, wrongAnswerCount, percentageSuccess));
-        } else {
-            UserStatTotal userStatTotalUpd = userStat.get(0);
-
-            int newCorrectAnswerCount = userStatTotalUpd.getCorrectAnswerCount() + correctAnswerCount;
-            int newWwrongAnswerCount = userStatTotalUpd.getWrongAnswerCount() + wrongAnswerCount;
-            int newPercentageSuccess = newCorrectAnswerCount * 100 / (newCorrectAnswerCount + newWwrongAnswerCount);
-
-            userStatTotalUpd.setQuizCount(userQuizCount);
-            userStatTotalUpd.setCorrectAnswerCount(newCorrectAnswerCount);
-            userStatTotalUpd.setWrongAnswerCount(newWwrongAnswerCount);
-            userStatTotalUpd.setPercentageSuccess(newPercentageSuccess);
-
-            userStatTotalDao.save(userStatTotalUpd);
-        }
-    }
-
     private List<List<Object>> getChartData() {
         List<List<Object>> list = new ArrayList<>();
 
         List<Object> correctAnswers = new ArrayList<>();
         correctAnswers.add("Correct answers");
-        correctAnswers.add(correctAnswerCount);
+        correctAnswers.add(userStat.getCorrectAnswer());
 
         List<Object> wrongAnswers = new ArrayList<>();
         wrongAnswers.add("Wrong answers");
-        wrongAnswers.add(wrongAnswerCount);
+        wrongAnswers.add(userStat.getWrongAnswer());
 
         list.add(correctAnswers);
         list.add(wrongAnswers);
 
         return list;
+    }
+
+    private void updateUserStat(String action) {
+        if (action.equals("new_quiz")) {
+            userStat = new UserStat(user.getId(), userStatTotal.getQuizCount(), 0, NUMBER_OF_QUESTIONS);
+            userStatDao.save(userStat);
+        } else if (action.equals("good_answer")) {
+            userStat.setCorrectAnswer(userStat.getCorrectAnswer() + 1);
+            userStat.setWrongAnswer(userStat.getWrongAnswer() - 1);
+        }
+        userStatDao.save(userStat);
+    }
+
+    private void updateUserStatTotal(String action) {
+        if (action.equals("new_quiz")) {
+            userStatTotal.setQuizCount(userStatTotal.getQuizCount() + 1);
+            userStatTotal.setWrongAnswerCount(userStatTotal.getWrongAnswerCount() + NUMBER_OF_QUESTIONS);
+        } else if (action.equals("good_answer")) {
+            userStatTotal.setCorrectAnswerCount(userStatTotal.getCorrectAnswerCount() + 1);
+            userStatTotal.setWrongAnswerCount(userStatTotal.getWrongAnswerCount() - 1);
+        }
+
+        int newPercentageSuccess = userStatTotal.getCorrectAnswerCount() * 100 / (userStatTotal.getCorrectAnswerCount() + userStatTotal.getWrongAnswerCount());
+        userStatTotal.setPercentageSuccess(newPercentageSuccess);
+
+        userStatTotalDao.save(userStatTotal);
     }
 }
