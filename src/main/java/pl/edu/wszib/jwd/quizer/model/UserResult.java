@@ -81,6 +81,14 @@ public class UserResult implements Comparable<UserResult> {
 
     @Override
     public int compareTo(@NotNull UserResult u) {
-        return Integer.compare(percentageSuccess, u.percentageSuccess) * -1;
+        int x = Integer.compare(percentageSuccess, u.percentageSuccess) * -1;
+        if (x == 0) {
+            int y = Integer.compare(quizCount, u.quizCount) * -1;
+            if(y == 0) {
+                return Integer.compare(email.compareTo(u.email), 0);
+            }
+            return y;
+        }
+        return x;
     }
 }

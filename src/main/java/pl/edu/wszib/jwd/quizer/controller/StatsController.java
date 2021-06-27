@@ -37,13 +37,13 @@ public class StatsController {
         int correctAnswerCount = 0;
         int wrongAnswerCount = 0;
 
-        List<UserStatTotal> stats = userStatTotalDao.findByUserId(user.getId());
+        UserStatTotal stats = userStatTotalDao.findByUserId(user.getId());
 
-        if (stats.size() != 0) {
-            correctAnswerCount = stats.get(0).getCorrectAnswerCount();
-            wrongAnswerCount = stats.get(0).getWrongAnswerCount();
-            model.addAttribute("numberOfQuizes", stats.get(0).getQuizCount());
-            model.addAttribute("percentageSuccess", stats.get(0).getPercentageSuccess());
+        if (stats != null) {
+            correctAnswerCount = stats.getCorrectAnswerCount();
+            wrongAnswerCount = stats.getWrongAnswerCount();
+            model.addAttribute("numberOfQuizes", stats.getQuizCount());
+            model.addAttribute("percentageSuccess", stats.getPercentageSuccess());
             model.addAttribute("numberOfCorrect", correctAnswerCount);
             model.addAttribute("numberOfWrong", wrongAnswerCount);
         } else {

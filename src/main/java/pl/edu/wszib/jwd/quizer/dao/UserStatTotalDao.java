@@ -12,6 +12,6 @@ import java.util.List;
 public interface UserStatTotalDao extends JpaRepository<UserStatTotal, Long> {
 
     @Query("select u from UserStatTotal u where u.userId = ?1")
-    List<UserStatTotal> findByUserId(Long userId);
+    UserStatTotal findByUserId(Long userId);
 }
 

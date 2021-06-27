@@ -25,7 +25,7 @@ public class UserDaoTests {
     @Test
     public void testCreateUser() {
         User user = new User();
-        user.setEmail("waldemar.smagacki@gmail.com");
+        user.setEmail("jan.kowalski@gmail.com");
         user.setPassword("password1");
         user.setFirstName("Jan");
         user.setLastName("Kowalski");
@@ -37,7 +37,7 @@ public class UserDaoTests {
 
     @Test
     public void testFindUserByEmail() {
-        String email = "waldemar.smagacki@gmail.com";
+        String email = "jan.kowalski@gmail.com";
         User user = userDao.findByEmail(email);
         assertThat(user).isNotNull();
     }

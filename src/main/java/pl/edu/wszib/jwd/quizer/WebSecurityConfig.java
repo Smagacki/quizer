@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import pl.edu.wszib.jwd.quizer.service.CustomUserDetailsService;
 
 import javax.sql.DataSource;
 
@@ -47,13 +48,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/quiz_panel", "/list_users", "/user_stats", "/all_stats").authenticated()
+                .antMatchers("/quiz_panel", "/list_users", "/user_stats",
+                        "/all_stats", "/questions", "/quiz_summary", "/new_question").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                    .usernameParameter("email")
-                    .defaultSuccessUrl("/quiz_panel")
-                    .permitAll()
+                .usernameParameter("email")
+                .defaultSuccessUrl("/quiz_panel")
+                .permitAll()
                 .and()
                 .logout().logoutSuccessUrl("/").permitAll();
     }

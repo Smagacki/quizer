@@ -60,12 +60,11 @@ public class QuizController {
         if (questionNumber == 1) {
             user = userService.getCurrentUser();
 
-            List<UserStatTotal> userStatTotalList = userStatTotalDao.findByUserId(user.getId());
-            if (userStatTotalList.size() == 0) {
+            userStatTotal = userStatTotalDao.findByUserId(user.getId());
+            if (userStatTotal == null) {
                 userStatTotal = new UserStatTotal(user.getId(), user.getEmail(), 0, 0, 0, 0);
-            } else {
-                userStatTotal = userStatTotalList.get(0);
             }
+
             updateUserStatTotal("new_quiz");
             updateUserStat("new_quiz");
 
