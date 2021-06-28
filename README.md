@@ -44,3 +44,8 @@ Istnieje możliwość dodawania własnych pytań. Podczas dodawania pytania nale
 - wpisać tekst pytania
 - wpisać prawidłową odpowiedż
 - wpisać przynajmniej jedną złą odpowiedź (maksymalnie 3)
+
+----------------------------------------------------------------------------------------------------------------------------
+
+## Link do aplikacji na Heroku
+https://smagacki-quizer.herokuapp.com/
